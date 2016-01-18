@@ -1,0 +1,31 @@
+# The maximum time to wait for Jetty, and all Managed instances,
+# to cleanly shutdown before forcibly terminating them.
+server:
+    applicationConnectors:
+        - type: http
+          port: 9979
+    adminConnectors:
+        - type: http
+          port: 9980
+    shutdownGracePeriod: 30s
+
+# Logging Config
+logging:
+  level: INFO
+  loggers:
+    io.dropwizard: INFO
+    org.springframework: WARN
+    org.hibernate: WARN
+    com.npixels: WARN
+    realsearch.tracing.interceptors: INFO
+    com.npixels.mockingjay: DEBUG
+  appenders:
+    - type: console
+      threshold: ALL
+      timeZone: UTC
+      target: stdout
+      logFormat: # TODO
+
+responseDir: "/Users/rvobugari/junk/GET/"
+
+guidanceDir: "/Users/rvobugari/junk/custom-path-dictionary"
