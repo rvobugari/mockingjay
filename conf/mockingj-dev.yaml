@@ -26,6 +26,6 @@ logging:
       target: stdout
       logFormat: # TODO
 
-responseDir: "/Users/rvobugari/junk/GET/"
+responseDir: "mockingjay/conf/response/"
 
-guidanceDir: "/Users/rvobugari/junk/custom-path-dictionary"
+guidanceDir: "mockingjay/conf/guidance/"

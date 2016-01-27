@@ -1,6 +1,7 @@
 package com.npixels.mockingjay.resources;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.npixels.mockingjay.config.MockingjayConfiguration;
 import com.npixels.mockingjay.exception.*;
 import com.npixels.mockingjay.exception.FileNotFoundException;
 import com.wordnik.swagger.core.*;
@@ -10,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import com.npixels.mockingjay.dto.LocationGuidanceDTO;
 import com.npixels.mockingjay.transformer.GuidanceModelTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 
@@ -35,10 +37,13 @@ public class MockingjayResource {
 
   private static final Logger logger = LoggerFactory.getLogger(MockingjayResource.class);
   private static final String responseDir = "/Users/rvobugari/junk/GET/";
-  private static final String customPathGuidanceDir = "/Users/rvobugari/junk/custom-path-dictionary/";
+  private static final String guidanceDir = "/Users/rvobugari/junk/custom-path-dictionary/";
   private static final String PARAMS_REGEX = "\\$p_(\\w+)";
   private static final String PATH_PARAM= "\\$pathparam";
   private static final String HEADER_REGEX = "\\$h_(\\w+)";
+
+  @Autowired @Qualifier("dw")
+  private MockingjayConfiguration mockjConfig;
 
   @Autowired
   GuidanceModelTransformer guidanceModelTransformer;
@@ -72,6 +77,8 @@ public class MockingjayResource {
     Response.ResponseBuilder myresponseFinalBuilderObject = null;
 
     try {
+
+
 
       String paramPathStg = getpath.replace("/", ".");
 
@@ -177,7 +184,8 @@ public class MockingjayResource {
   private LocationGuidanceDTO resolveResponsePaths(String httpMethod, String pathParamStg) throws IOException {
     String responseFileLocation = null;
     LocationGuidanceDTO responseGuidanceObjectDTO = null;
-    String customGuidanceJsonFile = customPathGuidanceDir + pathParamStg + "." + httpMethod + ".guide";
+    //String customGuidanceJsonFile = mockjConfig.getGuidanceDir() + pathParamStg + "." + httpMethod + ".guide";
+    String customGuidanceJsonFile = mockjConfig.getGuidanceDir() + pathParamStg + "." + httpMethod + ".guide";
     File customGuidanceJsonFileObject = new File(customGuidanceJsonFile);
     //TODO: Handle an exception when the actual file is absent.
     if (customGuidanceJsonFileObject.isFile() && customGuidanceJsonFileObject.canRead()) {
